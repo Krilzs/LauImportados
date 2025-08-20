@@ -30,6 +30,7 @@ const Header = () => {
     if (search.trim() !== "") {
       // Redirige a /productos con query ?search=...
       router.push(`/productos?search=${encodeURIComponent(search.trim())}`);
+      router.refresh();
       setSearch("");
     }
   };
