@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "name": "Vaper ELFBAR 40k puffs",
+    "description": "Vaper de 40,000 puffs recargable.",
+    "price": 28000,
+    "category": "Vapers",
+    "stock": 15,
+    "image": "/productos/vaper-elfbar-40k.png",
+    "createdAt": "2025-08-20T12:00:00Z",
+    "updatedAt": "2025-08-20T12:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "Vaper LOST ANGEL 20k puffs",
+    "description": "Vaper de 20,000 puffs recargable.",
+    "price": 22000,
+    "category": "Vapers",
+    "stock": 20,
+    "image": "/productos/vaper-lost-angel-20k.png",
+    "createdAt": "2025-08-20T12:00:00Z",
+    "updatedAt": "2025-08-20T12:00:00Z"
+  },
+  {
+    "id": 3,
+    "name": "Body Splash Victoria's Secret",
+    "description": "Fragancias originales de Victoria's Secret.",
+    "price": 35000,
+    "category": "Perfumería",
+    "stock": 12,
+    "image": "/productos/body-splash-vs.png",
+    "createdAt": "2025-08-20T12:00:00Z",
+    "updatedAt": "2025-08-20T12:00:00Z"
+  },
+  {
+    "id": 4,
+    "name": "Cremas Karseell",
+    "description": "Cremas capilares profesionales Karseell.",
+    "price": 32000,
+    "category": "Cosmética",
+    "stock": 10,
+    "image": "/productos/crema-karseell.png",
+    "createdAt": "2025-08-20T12:00:00Z",
+    "updatedAt": "2025-08-20T12:00:00Z"
+  },
+  {
+    "id": 5,
+    "name": "Cremas para el cuerpo Victoria's Secret",
+    "description": "Cremas hidratantes corporales Victoria's Secret.",
+    "price": 35000,
+    "category": "Cosmética",
+    "stock": 8,
+    "image": "/productos/crema-cuerpo-vs.png",
+    "createdAt": "2025-08-20T12:00:00Z",
+    "updatedAt": "2025-08-20T12:00:00Z"
+  },
+  {
+    "id": 6,
+    "name": "AirPods",
+    "description": "Auriculares inalámbricos con estuche de carga.",
+    "price": 25000,
+    "category": "Tecnología",
+    "stock": 25,
+    "image": "/productos/airpods.png",
+    "createdAt": "2025-08-20T12:00:00Z",
+    "updatedAt": "2025-08-20T12:00:00Z"
+  },
+  {
+    "id": 7,
+    "name": "Cargadores de iPhone",
+    "description": "Cargadores compatibles con iPhone.",
+    "price": 25000,
+    "category": "Accesorios",
+    "stock": 30,
+    "image": "/productos/cargador-iphone.png",
+    "createdAt": "2025-08-20T12:00:00Z",
+    "updatedAt": "2025-08-20T12:00:00Z"
+  },
+  {
+    "id": 8,
+    "name": "Perfumes Árabes",
+    "description": "Variedad de perfumes árabes importados.",
+    "price": 0,
+    "category": "Perfumería",
+    "stock": 0,
+    "image": "/productos/perfumes-arabes.png",
+    "createdAt": "2025-08-20T12:00:00Z",
+    "updatedAt": "2025-08-20T12:00:00Z"
+  },
+  {
+    "id": 9,
+    "name": "Secador de pelo LUO",
+    "description": "Secador con 3 velocidades / frío - calor.",
+    "price": 25000,
+    "category": "Electrodomésticos",
+    "stock": 7,
+    "image": "/productos/secador-luo.png",
+    "createdAt": "2025-08-20T12:00:00Z",
+    "updatedAt": "2025-08-20T12:00:00Z"
+  },
+  {
+    "id": 10,
+    "name": "Game Stick",
+    "description": "Consola retro Game Stick con juegos incluidos.",
+    "price": 42000,
+    "category": "Tecnología",
+    "stock": 5,
+    "image": "/productos/game-stick.png",
+    "createdAt": "2025-08-20T12:00:00Z",
+    "updatedAt": "2025-08-20T12:00:00Z"
+  }
+]
