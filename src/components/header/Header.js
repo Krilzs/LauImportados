@@ -24,14 +24,12 @@ const Header = () => {
   const [isMenuHide, setIsMenuHide] = useState(false);
 
   useEffect(() => {
+    // Evita correr en SSR
+    if (typeof window === "undefined") return;
+
     const handleScroll = () => {
       const currentScrollY = window.pageYOffset;
-
-      if (currentScrollY > 0) {
-        setIsMenuHide(true);
-      } else {
-        setIsMenuHide(false);
-      }
+      setIsMenuHide(currentScrollY > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
