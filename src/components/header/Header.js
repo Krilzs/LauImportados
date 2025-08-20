@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaCartShopping } from "react-icons/fa6";
 import PageItemList from "./PageItemList";
 import Link from "next/link";
@@ -19,28 +19,33 @@ const PageRoutes = [
     path: "/contacto",
   },
 ];
+
 const Header = () => {
-  const [isMenuHide, seIsMenuHide] = useState(false);
+  const [isMenuHide, setIsMenuHide] = useState(false);
 
-  const handleMenuHide = (value) => {
-    seIsMenuHide(value);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.pageYOffset;
 
-  window.addEventListener("scroll", () => {
-    const currentScrollY = window.pageYOffset;
+      if (currentScrollY > 0) {
+        setIsMenuHide(true);
+      } else {
+        setIsMenuHide(false);
+      }
+    };
 
-    if (currentScrollY > 0) {
-      handleMenuHide(true);
-    } else if (currentScrollY == 0) {
-      handleMenuHide(false);
-    }
-  });
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div className="transform transition-transform duration-500 w-full flex flex-col items-center justify-center fixed top-0 z-10">
       <div
         id="header"
-        className="text-2xl w-full font-bold items-center justify-center flex text-center bg-white  h-[8vh] px-5 "
+        className="text-2xl w-full font-bold items-center justify-center flex text-center bg-white h-[8vh] px-5 "
       >
         <Link
           href="/"
