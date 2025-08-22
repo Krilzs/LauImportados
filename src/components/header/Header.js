@@ -1,14 +1,14 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaMagnifyingGlass } from "react-icons/fa6";
 import PageItemList from "./PageItemList";
 import Link from "next/link";
-import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useRouter } from "next/navigation"; // Hook para redirecciones
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const PageRoutes = [
-  { name: "Productos", path: "/productos" },
+  { name: "Tienda", path: "/tienda" },
   { name: "Categorias", path: "/categorias" },
   { name: "Contacto", path: "/contacto" },
 ];
@@ -16,8 +16,17 @@ const PageRoutes = [
 const Header = () => {
   const [isMenuHide, setIsMenuHide] = useState(false);
   const [search, setSearch] = useState("");
-  const router = useRouter(); // para redireccionar programáticamente
+  const [mounted, setMounted] = useState(false); // para Hydration
+  const router = useRouter();
 
+  const items = useSelector((state) => state.cart.items);
+
+  // Evitar Hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Mostrar el menú al hacer scroll
   useEffect(() => {
     if (typeof window === "undefined") return;
     const handleScroll = () => setIsMenuHide(window.pageYOffset > 0);
@@ -28,15 +37,18 @@ const Header = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (search.trim() !== "") {
-      // Redirige a /productos con query ?search=...
-      router.push(`/productos?search=${encodeURIComponent(search.trim())}`);
-      router.refresh();
+      router.push(`/tienda?search=${encodeURIComponent(search.trim())}`);
       setSearch("");
     }
   };
 
+  if (!mounted) return null; // no renderizamos nada hasta el cliente
+
+  const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
+
   return (
     <div className="transform transition-transform duration-500 w-full flex flex-col items-center justify-center fixed top-0 z-10">
+      {/* Header superior */}
       <div className="text-2xl w-full font-bold items-center justify-center flex text-center bg-white h-[8vh] px-5">
         {/* Logo */}
         <Link
@@ -72,19 +84,22 @@ const Header = () => {
         </form>
 
         {/* Carrito */}
-        <button className="w-1/4 flex items-center justify-end cursor-pointer lg:justify-center lg:w-1/4">
+        <Link
+          href="/carrito"
+          className="w-1/4 flex items-center justify-end cursor-pointer lg:justify-center lg:w-1/4"
+        >
           <FaCartShopping />
-          <p className="ml-2 text-sm">(0)</p>
-        </button>
+          <p className="ml-2 text-sm">({totalQuantity})</p>
+        </Link>
       </div>
 
-      {/* Menú */}
+      {/* Menú inferior */}
       <div
         className={`${
           isMenuHide ? "-translate-y-full" : "translate-y-0"
         } transform transition-transform duration-500 bg-white ease-in-out shadow-md h-fit w-full flex items-center justify-center font-bold -z-10`}
       >
-        <ul className="flex w-fit items-center justify-center">
+        <ul className="flex w-full items-center justify-center">
           {PageRoutes.map((page) => (
             <PageItemList key={page.name} {...page} />
           ))}

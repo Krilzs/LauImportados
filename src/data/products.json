@@ -104,7 +104,7 @@
     "description": "Consola retro Game Stick con juegos incluidos.",
     "price": 42000,
     "category": "Tecnología",
-    "stock": 5,
+    "stock": 0,
     "image": "/productos/game-stick.png",
     "createdAt": "2025-08-20T12:00:00Z",
     "updatedAt": "2025-08-20T12:00:00Z"

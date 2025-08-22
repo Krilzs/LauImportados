@@ -1,5 +1,5 @@
 // Server Component
-import ProductosClient from "./ProductosClient";
+import TiendaClient from "./TiendaClient";
 import productsData from "@/data/products.json";
 
 export default async function ProductosPage({ searchParams }) {
@@ -15,5 +15,5 @@ export default async function ProductosPage({ searchParams }) {
           product.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
-  return <ProductosClient productos={filteredProducts} search={searchQuery} />;
+  return <TiendaClient productos={filteredProducts} search={searchQuery} />;
 }

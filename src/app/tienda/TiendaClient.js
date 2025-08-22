@@ -1,14 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { FaCartPlus } from "react-icons/fa";
 import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
-import Filters from "@/components/productos/Filters";
+import Filters from "@/components/tienda/Filters";
+import TiendaProductCard from "@/components/tienda/TiendaProductCard";
 
-const formatter = new Intl.NumberFormat("es-AR");
-
-export default function ProductosClient({ productos }) {
+export default function TiendaClient({ productos }) {
   const [filterIsOpen, setFilterIsOpen] = useState(false);
   const filterRef = useRef(null);
   const [products, setProducts] = useState(productos);
@@ -75,33 +72,7 @@ export default function ProductosClient({ productos }) {
       {/* Grid de productos */}
       <section className="grid w-full h-fit grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 md:px-5">
         {products.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center justify-between hover:shadow-lg transition-all cursor-pointer hover:scale-101 "
-          >
-            <div className="w-full h-40 relative mb-3">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-contain rounded-xl"
-              />
-            </div>
-            <h3 className="w-full text-sm font-semibold text-gray-800 line-clamp-2 text-start md:text-xl">
-              {product.name}
-            </h3>
-            <p className="text-gray-600 text-xs mt-1 line-clamp-2 text-start md:text-sm w-full">
-              {product.description}
-            </p>
-            <div className="w-full flex items-center justify-between mt-3">
-              <span className="text-lg font-bold text-gray-900">
-                ${formatter.format(product.price)}
-              </span>
-              <button className="bg-black text-white p-2 rounded-xl hover:bg-gray-800 transition-colors">
-                <FaCartPlus />
-              </button>
-            </div>
-          </div>
+          <TiendaProductCard key={product.id} product={product} />
         ))}
       </section>
     </main>
