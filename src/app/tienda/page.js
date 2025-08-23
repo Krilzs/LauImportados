@@ -6,14 +6,29 @@ export default async function ProductosPage({ searchParams }) {
   const params = await searchParams;
 
   const searchQuery = params?.search || "";
+  const categoryQuery = params?.category || ""; // 👈 agregamos categoría
 
-  // Filtramos los productos en el servidor
-  const filteredProducts =
-    searchQuery === ""
-      ? productsData
-      : productsData.filter((product) =>
-          product.name.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+  // Filtrado por nombre y categoría
+  let filteredProducts = productsData;
 
-  return <TiendaClient productos={filteredProducts} search={searchQuery} />;
+  if (searchQuery !== "") {
+    filteredProducts = filteredProducts.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
+
+  if (categoryQuery !== "") {
+    filteredProducts = filteredProducts.filter(
+      (product) =>
+        product.category?.toLowerCase() === categoryQuery.toLowerCase()
+    );
+  }
+
+  return (
+    <TiendaClient
+      productos={filteredProducts}
+      search={searchQuery}
+      category={categoryQuery}
+    />
+  );
 }
