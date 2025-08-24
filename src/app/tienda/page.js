@@ -1,34 +1,25 @@
-// Server Component
-import TiendaClient from "./TiendaClient";
-import productsData from "@/data/products.json";
+import { supabase } from "@/lib/supabaseClient";
+import TiendaClient from "@/app/tienda/TiendaClient";
+import ErrorPage from "@/components/errors/errorFetching";
 
-export default async function ProductosPage({ searchParams }) {
-  const params = await searchParams;
+export default async function TiendaPage({ searchParams }) {
+  const { search, category } = searchParams;
 
-  const searchQuery = params?.search || "";
-  const categoryQuery = params?.category || ""; // 👈 agregamos categoría
+  console.log("Search:", search, "Category:", category);
 
-  // Filtrado por nombre y categoría
-  let filteredProducts = productsData;
+  let productos_query = supabase.from("productos").select("*");
+  const categorias_query = supabase.from("categorias").select("*");
 
-  if (searchQuery !== "") {
-    filteredProducts = filteredProducts.filter((product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }
+  // Filtrar por nombre si hay search
+  if (search) productos_query = productos_query.ilike("name", `%${search}%`);
 
-  if (categoryQuery !== "") {
-    filteredProducts = filteredProducts.filter(
-      (product) =>
-        product.category?.toLowerCase() === categoryQuery.toLowerCase()
-    );
-  }
+  // Filtrar por categoría si hay category
+  if (category) productos_query = productos_query.eq("category_id", category);
 
-  return (
-    <TiendaClient
-      productos={filteredProducts}
-      search={searchQuery}
-      category={categoryQuery}
-    />
-  );
+  const { data: productos, error: productosError } = await productos_query;
+  const { data: categorias, error: categoriasError } = await categorias_query;
+
+  if (productosError || categoriasError) return <ErrorPage />;
+
+  return <TiendaClient productos={productos || []} categorias={categorias} />;
 }

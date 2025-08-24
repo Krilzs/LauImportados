@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Filters from "@/components/tienda/Filters";
 import TiendaProductCard from "@/components/tienda/TiendaProductCard";
 
-export default function TiendaClient({ productos }) {
+export default function TiendaClient({ productos, categorias }) {
   const [filterIsOpen, setFilterIsOpen] = useState(false);
   const filterRef = useRef(null);
   const [products, setProducts] = useState(productos);
@@ -22,15 +22,17 @@ export default function TiendaClient({ productos }) {
         opacity: 0,
         padding: 0,
         duration: 0.2,
-        ease: "power1.inOut",
+        ease: "power2.inOut",
       });
     } else {
       gsap.to(filterRef.current, {
         height: "auto",
         opacity: 1,
-        padding: 20,
+        paddingRight: 20,
+        paddingLeft: 20,
+        paddingTop: 20,
         duration: 0.2,
-        ease: "power1.inOut",
+        ease: "power2.inOut",
       });
     }
   };
@@ -59,6 +61,7 @@ export default function TiendaClient({ productos }) {
     <main className="flex h-fit min-h-screen mt-10 py-25 px-5 flex-col md:flex-row">
       {/* Filtros */}
       <Filters
+        categorias={categorias}
         handleFilterOpen={handleFilterOpen}
         filterRef={filterRef}
         minPrice={minPrice}

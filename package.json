@@ -11,6 +11,7 @@
   "dependencies": {
     "@mercadopago/sdk-react": "^1.0.4",
     "@reduxjs/toolkit": "^2.8.2",
+    "@supabase/supabase-js": "^2.56.0",
     "gsap": "^3.13.0",
     "mercadopago": "^2.8.0",
     "next": "15.5.0",

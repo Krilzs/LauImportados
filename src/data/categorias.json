@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Vapers",
+    "description": "Explora la mejor selección de vapers de alta duración.",
+    "image": "/categorias/vapers.png"
+  },
+  {
+    "id": 2,
+    "name": "Perfumería",
+    "description": "Perfumes y fragancias exclusivas.",
+    "image": "/categorias/perfumeria.png"
+  },
+  {
+    "id": 3,
+    "name": "Cosmética",
+    "description": "Productos de belleza y cuidado personal.",
+    "image": "/categorias/cosmetica.png"
+  },
+  {
+    "id": 4,
+    "name": "Tecnología",
+    "description": "Gadgets, auriculares y más.",
+    "image": "/categorias/tecnologia.png"
+  },
+  {
+    "id": 5,
+    "name": "Accesorios",
+    "description": "Cargadores, fundas y complementos.",
+    "image": "/categorias/accesorios.png"
+  },
+  {
+    "id": 6,
+    "name": "Electrodomésticos",
+    "description": "Pequeños electrodomésticos de uso diario.",
+    "image": "/categorias/electrodomesticos.png"
+  }
+]
