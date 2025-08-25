@@ -17,6 +17,8 @@ const Filters = ({
   const searchParams = useSearchParams();
   const activeCategory = searchParams.get("category") || "";
 
+  console.log(activeCategory);
+
   const handleCategory = (category) => {
     router.push(`/tienda?category=${encodeURIComponent(category)}`);
   };
@@ -47,8 +49,8 @@ const Filters = ({
               <button
                 key={c.id}
                 onClick={() => handleCategory(c.id)}
-                className={`text-left px-3 py-2 rounded-lg transition ${
-                  activeCategory === c.name
+                className={`text-left px-3 py-2 rounded-lg transition cursor-pointer ${
+                  activeCategory == c.id
                     ? "bg-black text-white"
                     : "bg-gray-100 hover:bg-gray-200 text-gray-700"
                 }`}

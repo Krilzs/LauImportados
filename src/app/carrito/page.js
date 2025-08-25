@@ -19,7 +19,7 @@ const CarritoPage = () => {
 
   const formSchema = z.object({
     name: z.string(),
-    email: z.string().email(),
+    email: z.email(),
     phone: z.string(),
   });
 

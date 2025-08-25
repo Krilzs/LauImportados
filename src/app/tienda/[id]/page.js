@@ -1,11 +1,17 @@
-import productsData from "@/data/products.json";
-
+import { supabase } from "@/lib/supabaseClient";
 import ProductClient from "@/app/tienda/[id]/ProductClient";
+import ErrorPage from "@/components/errors/errorFetching";
 
 const ProductPage = async ({ params }) => {
   const { id } = await params;
 
-  const product = productsData.find((product) => product.id == id);
+  const query = supabase.from("productos").select("*").eq("id", id);
+
+  const { data: product, error } = await query;
+
+  console.log(product);
+
+  if (error) return <ErrorPage />;
 
   if (!product) {
     return (
@@ -17,7 +23,7 @@ const ProductPage = async ({ params }) => {
     );
   }
 
-  return <ProductClient product={product} />;
+  return <ProductClient product={product[0]} />;
 };
 
 export default ProductPage;

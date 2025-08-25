@@ -4,7 +4,10 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/cartSlice";
 
+import { useRouter } from "next/navigation";
+
 const ProductClient = ({ product }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [quantitySelected, setQuantitySelected] = useState(1);
   const [error, setError] = useState("");
@@ -37,13 +40,18 @@ const ProductClient = ({ product }) => {
     setError("");
   };
 
+  const handleBuyNow = () => {
+    handleAddToCart();
+    router.push(`/carrito`);
+  };
+
   return (
     <div className="min-h-screen mt-40 flex justify-center">
       <div className="md:max-w-6xl w-full flex flex-col lg:flex-row md:gap-10">
         {/* Imagen */}
         <div className="lg:w-1/2 flex items-center justify-center p-6 bg-gray-100">
           <Image
-            src={product.image}
+            src={product.image ?? "https://placehold.co/600x400"}
             width={500}
             height={500}
             alt={product.name}
@@ -79,6 +87,7 @@ const ProductClient = ({ product }) => {
             <div className="flex flex-col gap-4 md:flex-row">
               <button
                 disabled={product.stock === 0}
+                onClick={handleBuyNow}
                 className={`${
                   product.stock === 0
                     ? "cursor-not-allowed bg-gray-400 hover:bg-gray-400"
