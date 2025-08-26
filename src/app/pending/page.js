@@ -22,3 +22,6 @@ export default function PendingPage() {
     </div>
   );
 }
+
+
+export const dynamic = "force-dynamic";
