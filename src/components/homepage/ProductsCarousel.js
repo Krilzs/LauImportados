@@ -5,29 +5,34 @@ import ProductCard from "@/components/homepage/ProductCard";
 
 const ProductosCarousel = [
   {
-    nombre: "Cascos",
-    descripcion: "Cascos | Guantes",
-    src: "/Carousel/Cascos.png",
+    id: 1,
+    name: "Vapers",
+    description: "Explora la mejor selección de vapers de alta duración.",
+    image: "/Carousel/Vapes.png",
   },
   {
-    nombre: "Vapes",
-    descripcion: "Descripción del visor 2",
-    src: "/Carousel/Vapes.png",
+    id: 2,
+    name: "Perfumería",
+    description: "Perfumes y fragancias exclusivas.",
+    image: "/Carousel/Perfumeria.png",
   },
   {
-    nombre: "Consolas y Juegos",
-    descripcion: "Consolas | Juegos",
-    src: "/Carousel/Consolas.png",
+    id: 3,
+    name: "Cosmética",
+    description: "Belleza y cuidado personal.",
+    image: "/Carousel/Cosmetica.png",
   },
   {
-    nombre: "Electronica",
-    descripcion: "Cargadores | Audifonos",
-    src: "/Carousel/Electronica.png",
+    id: 4,
+    name: "Tecnología",
+    description: "Gadgets, auriculares y más.",
+    image: "/Carousel/Consolas.png",
   },
   {
-    nombre: "Cuidado Personal",
-    descripcion: "Cremas | Perfumes",
-    src: "/Carousel/CuidadoPersonal.png",
+    id: 5,
+    name: "Accesorios",
+    description: "Cargadores, fundas y complementos.",
+    image: "/Carousel/Electronica.png",
   },
 ];
 

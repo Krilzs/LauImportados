@@ -8,24 +8,23 @@ export async function POST(request) {
   try {
     const { items, buyer } = await request.json();
 
-    console.log(buyer);
-
     const preference = new Preference(client);
 
     // ⚠️ IMPORTANTE: usar body
     const response = await preference.create({
       body: {
         items: items.map((item) => ({
+          id: item.id,
           title: item.name,
           quantity: Number(item.quantity),
           unit_price: Number(item.price),
         })),
         back_urls: {
-          success: "http://localhost:3000/success",
-          failure: "http://localhost:3000/failure",
-          pending: "http://localhost:3000/pending",
+          success: "https://0acabdffb8ac.ngrok-free.app/success",
+          failure: "https://0acabdffb8ac.ngrok-free.app/failure",
+          pending: "https://0acabdffb8ac.ngrok-free.app/pending",
         },
-        auto_return: "",
+        auto_return: "approved",
       },
     });
 

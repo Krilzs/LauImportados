@@ -26,7 +26,7 @@ const Filters = ({
   return (
     <aside
       id="filters"
-      className="bg-white w-full rounded-2xl flex-col overflow-hidden shadow-md h-fit flex items-center justify-start mb-6 md:w-1/5"
+      className="bg-white w-full rounded-2xl flex-col overflow-hidden shadow-md h-fit flex items-center justify-start mb-6 lg:w-2/6 xl:w-1/5 md:w-2/4"
     >
       <h5
         className="h-12 flex items-center w-full justify-center font-semibold text-gray-800 cursor-pointer hover:bg-gray-50 transition"

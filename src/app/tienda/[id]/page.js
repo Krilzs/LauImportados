@@ -9,8 +9,6 @@ const ProductPage = async ({ params }) => {
 
   const { data: product, error } = await query;
 
-  console.log(product);
-
   if (error) return <ErrorPage />;
 
   if (!product) {
