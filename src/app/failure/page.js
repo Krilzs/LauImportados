@@ -26,3 +26,5 @@ export default function FailurePage() {
     </div>
   );
 }
+
+export const dynamic = "force-dynamic";
