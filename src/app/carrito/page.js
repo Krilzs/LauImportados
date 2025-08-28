@@ -11,18 +11,6 @@ const CarritoPage = () => {
   const dispatch = useDispatch();
   const [mounted, setMounted] = useState(false);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-  });
-
-  const formSchema = z.object({
-    name: z.string(),
-    email: z.email(),
-    phone: z.string(),
-  });
-
   const totalPrice = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -37,11 +25,10 @@ const CarritoPage = () => {
   const handleCheckout = async (e) => {
     e.preventDefault();
     try {
-      formSchema.parse(formData);
       const res = await fetch("/api/create_preference", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: items, buyer: formData }),
+        body: JSON.stringify({ items: items }),
       });
 
       const data = await res.json();
@@ -133,55 +120,20 @@ const CarritoPage = () => {
         {/* Columna derecha → Formulario */}
         <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between">
           <h2 className="text-xl font-bold mb-4">Datos del Comprador</h2>
-          <form className="flex flex-col gap-2">
-            <label className="text-gray-600 flex flex-col" htmlFor="name">
-              Nombre completo
-              <input
-                type="text"
-                name="name"
-                placeholder="Juan Perez"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
-            </label>
+          <p className="text-gray-600 mb-4">
+            Tus datos se obtendran de forma segura y directa desde Mercado Pago
+          </p>
 
-            <label className="text-gray-600 flex flex-col" htmlFor="email">
-              Correo electrónico
-              <input
-                type="email"
-                name="email"
-                placeholder="juanperez@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
-            </label>
-            <label className="text-gray-600 flex flex-col" htmlFor="phone">
-              Teléfono
-              <input
-                type="text"
-                name="phone"
-                placeholder="1122334455"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
-            </label>
-            <h3 className="text-lg font-bold mb-2">
-              Total: ${totalPrice.toFixed(2)}
-            </h3>
-            <button
-              type="submit"
-              onClick={handleCheckout}
-              className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-lg font-bold "
-            >
-              Pagar con Mercado Pago
-            </button>
-          </form>
+          <h3 className="text-lg font-bold mb-2">
+            Total: ${totalPrice.toFixed(2)}
+          </h3>
+          <button
+            type="submit"
+            onClick={handleCheckout}
+            className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-lg font-bold "
+          >
+            Pagar con Mercado Pago
+          </button>
         </div>
       </div>
     </div>

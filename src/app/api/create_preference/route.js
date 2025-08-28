@@ -6,7 +6,7 @@ const client = new MercadoPagoConfig({
 
 export async function POST(request) {
   try {
-    const { items, buyer } = await request.json();
+    const { items } = await request.json();
 
     const preference = new Preference(client);
 
@@ -20,9 +20,9 @@ export async function POST(request) {
           unit_price: Number(item.price),
         })),
         back_urls: {
-          success: "https://0acabdffb8ac.ngrok-free.app/success",
-          failure: "https://0acabdffb8ac.ngrok-free.app/failure",
-          pending: "https://0acabdffb8ac.ngrok-free.app/pending",
+          success: "https://lau-importados.vercel.app/success",
+          failure: "https://lau-importados.vercel.app/failure",
+          pending: "https://lau-importados.vercel.app/pending",
         },
         auto_return: "approved",
       },
