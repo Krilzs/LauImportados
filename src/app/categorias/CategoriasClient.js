@@ -18,7 +18,7 @@ export default function CategoriasClient({ categorias }) {
           className="group cursor-pointer overflow-hidden rounded-2xl shadow-md bg-white hover:shadow-xl transition-all"
         >
           {/* Imagen con overlay */}
-          <div className="relative h-52 w-full">
+          <div className="relative h-52 w-full overflow-hidden">
             <Image
               src={categoria.image}
               alt={categoria.name}
