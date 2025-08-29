@@ -46,12 +46,12 @@ const ProductClient = ({ product }) => {
   };
 
   return (
-    <div className="min-h-screen mt-40 flex justify-center">
+    <div className=" mt-30 flex justify-center md:mt-40">
       <div className="md:max-w-6xl w-full flex flex-col lg:flex-row md:gap-10">
         {/* Imagen */}
         <div className="lg:w-1/2 flex items-center justify-center p-6 bg-gray-100">
           <Image
-            src={product.image ?? "https://placehold.co/600x400"}
+            src={product.image}
             width={500}
             height={500}
             alt={product.name}
