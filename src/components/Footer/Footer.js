@@ -19,7 +19,7 @@ const Footer = () => {
           <h3 className="font-semibold mb-2">Navegación</h3>
           <ul className="space-y-1 text-gray-600">
             <li>
-              <Link href="/productos" className="hover:text-black">
+              <Link href="/tienda" className="hover:text-black">
                 Productos
               </Link>
             </li>

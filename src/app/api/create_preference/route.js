@@ -20,9 +20,9 @@ export async function POST(request) {
           unit_price: Number(item.price),
         })),
         back_urls: {
-          success: "https://lau-importados.vercel.app/success",
-          failure: "https://lau-importados.vercel.app/failure",
-          pending: "https://lau-importados.vercel.app/pending",
+          success: "https://250f0fb2b791.ngrok-free.app/success",
+          failure: "https://250f0fb2b791.ngrok-free.app/failure",
+          pending: "https://250f0fb2b791.ngrok-free.app/pending",
         },
         auto_return: "approved",
       },

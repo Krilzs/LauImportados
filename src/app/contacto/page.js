@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { FaWhatsapp, FaInstagram, FaEnvelope } from "react-icons/fa";
+import { FaWhatsapp, FaInstagram } from "react-icons/fa";
 
 export default function ContactoPage() {
   const [form, setForm] = useState({ nombre: "", email: "", mensaje: "" });
@@ -114,12 +114,6 @@ export default function ContactoPage() {
               className="flex items-center gap-3 text-lg text-gray-700 hover:text-pink-500 transition-colors"
             >
               <FaInstagram size={22} /> Instagram
-            </a>
-            <a
-              href="mailto:tuemail@ejemplo.com"
-              className="flex items-center gap-3 text-lg text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              <FaEnvelope size={22} /> Email
             </a>
           </div>
         </div>
