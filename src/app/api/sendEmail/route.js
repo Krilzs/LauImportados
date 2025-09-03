@@ -9,8 +9,8 @@ export async function POST(req) {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "jerocorigliano@yahoo.com.ar",
-      to: [email],
+      from: "Lau Importados | no-reply <onboarding@resend.dev>",
+      to: ["jerofc143@gmail.com"],
       subject: "Tu compra en Lau Importados",
       react: (
         <EmailTemplate items={items} email={email} payment_id={payment_id} />

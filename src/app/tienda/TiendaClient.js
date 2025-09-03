@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 import Filters from "@/components/tienda/Filters";
 import TiendaProductCard from "@/components/tienda/TiendaProductCard";
+import { LuSearchX } from "react-icons/lu";
 
 export default function TiendaClient({ productos, categorias }) {
   const [filterIsOpen, setFilterIsOpen] = useState(false);
@@ -73,11 +74,20 @@ export default function TiendaClient({ productos, categorias }) {
       />
 
       {/* Grid de productos */}
-      <section className="grid w-full h-fit grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 md:px-5">
-        {products.map((product) => (
-          <TiendaProductCard key={product.id} product={product} />
-        ))}
-      </section>
+      {productos.length > 0 && (
+        <section className="grid w-full h-fit grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 md:px-5">
+          {products.map((product) => (
+            <TiendaProductCard key={product.id} product={product} />
+          ))}
+        </section>
+      )}
+
+      {productos.length === 0 && (
+        <div className="w-full h-[50vh] flex justify-center items-center font-bold text-center text-gray-400 flex-col">
+          <LuSearchX className="text-7xl mb-5" />
+          <p className="text-xl">No se encontraron productos.</p>
+        </div>
+      )}
     </main>
   );
 }

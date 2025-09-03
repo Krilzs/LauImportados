@@ -3,9 +3,7 @@ import TiendaClient from "@/app/tienda/TiendaClient";
 import ErrorPage from "@/components/errors/errorFetching";
 
 export default async function TiendaPage({ searchParams }) {
-  const { search, category } = searchParams;
-
-  console.log("Search:", search, "Category:", category);
+  const { search, category } = await searchParams;
 
   let productos_query = supabase.from("productos").select("*");
   const categorias_query = supabase.from("categorias").select("*");

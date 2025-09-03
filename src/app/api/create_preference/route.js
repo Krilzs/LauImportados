@@ -1,4 +1,6 @@
 import { MercadoPagoConfig, Preference } from "mercadopago";
+import { supabase } from "@/lib/supabaseClient";
+import crypto from "crypto";
 
 const client = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN,
@@ -6,11 +8,32 @@ const client = new MercadoPagoConfig({
 
 export async function POST(request) {
   try {
-    const { items } = await request.json();
-
+    const { items, buyerData } = await request.json();
     const preference = new Preference(client);
 
-    // ⚠️ IMPORTANTE: usar body
+    // 1. Generar external_reference único
+    const external_reference = crypto.randomUUID();
+
+    // 2. Guardar orden preliminar en Supabase
+    const { data, error } = await supabase
+      .from("pedidos")
+      .insert([
+        {
+          external_reference,
+          status: "pending",
+          buyer_first_name: buyerData.firstName,
+          buyer_last_name: buyerData.lastName,
+          delivery_point: buyerData.deliveryPoint,
+          carrito: items, // guardar JSON del carrito
+          created_at: new Date().toISOString(),
+        },
+      ])
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+
+    // 3. Crear preferencia en Mercado Pago
     const response = await preference.create({
       body: {
         items: items.map((item) => ({
@@ -20,11 +43,15 @@ export async function POST(request) {
           unit_price: Number(item.price),
         })),
         back_urls: {
-          success: "https://250f0fb2b791.ngrok-free.app/success",
-          failure: "https://250f0fb2b791.ngrok-free.app/failure",
-          pending: "https://250f0fb2b791.ngrok-free.app/pending",
+          success:
+            "https://patterns-insert-physical-enhanced.trycloudflare.com/success",
+          failure:
+            "https://patterns-insert-physical-enhanced.trycloudflare.com/failure",
+          pending:
+            "https://patterns-insert-physical-enhanced.trycloudflare.com/pending",
         },
         auto_return: "approved",
+        external_reference, // 👈 clave para unir con tu DB
       },
     });
 
@@ -36,10 +63,7 @@ export async function POST(request) {
     console.error("❌ Error creando preferencia:", error);
     return new Response(
       JSON.stringify({ error: error.message || "Error creando preferencia" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }

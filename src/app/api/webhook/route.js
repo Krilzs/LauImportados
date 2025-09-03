@@ -1,4 +1,3 @@
-// app/api/webhook/route.js
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -23,32 +22,8 @@ async function getPayment(paymentId) {
   return res.json();
 }
 
-async function createPedido(merchantOrder, payer_information, items) {
-  const totalAmount = items.reduce(
-    (acc, item) => acc + item.unit_price * item.quantity,
-    0
-  );
-
-  const { data, error } = await supabase
-    .from("pedidos")
-    .insert([
-      {
-        status: merchantOrder.status,
-        total_amount: totalAmount,
-        user_email: payer_information.email,
-        created_at: new Date().toISOString(),
-        id_pedido_mp: merchantOrder.id, // 👈 idempotencia
-      },
-    ])
-    .select()
-    .single();
-
-  if (error) throw new Error(`Error creating pedido: ${error.message}`);
-  return data;
-}
-
-async function processItems(pedidoId, items) {
-  for (const item of items) {
+async function updateStockFromCarrito(carrito) {
+  for (const item of carrito) {
     // 1. Obtener stock actual
     const { data: product, error: productError } = await supabase
       .from("productos")
@@ -74,24 +49,10 @@ async function processItems(pedidoId, items) {
         stockError
       );
     }
-
-    // 3. Insertar en pedido_items
-    const { error: itemError } = await supabase.from("pedido_items").insert([
-      {
-        pedido_id: pedidoId,
-        producto_id: item.id,
-        quantity: item.quantity,
-        price: item.unit_price,
-      },
-    ]);
-
-    if (itemError) {
-      console.error(`❌ Error inserting item ${item.id}:`, itemError);
-    }
   }
 }
 
-//  Handler Principal
+// --- Handler Principal ---
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -101,31 +62,61 @@ export async function POST(req) {
       return NextResponse.json({ status: "ignored" });
     }
 
+    console.info("🔔 Webhook recibido");
     const merchantOrder = await getMerchantOrder(body.id);
-    const items = merchantOrder.items;
+    const paymentId = merchantOrder.payments[0]?.id;
+    if (!paymentId) {
+      console.warn("⚠️ Webhook sin paymentId válido");
+      return NextResponse.json({ status: "no_payment" });
+    }
 
-    // Idempotencia → evitar pedidos duplicados
-    const { data: existing } = await supabase
+    const payment = await getPayment(paymentId);
+    const payer_information = payment.payer;
+    const external_reference = payment.external_reference;
+
+    // Buscar orden en Supabase
+    const { data: existingOrder, error: orderError } = await supabase
       .from("pedidos")
-      .select("id")
-      .eq("id_pedido_mp", merchantOrder.id)
+      .select("*")
+      .eq("external_reference", external_reference)
       .maybeSingle();
 
-    if (existing) {
-      console.log("⚠️ Pedido ya procesado, ignorando webhook");
+    if (orderError) throw new Error(orderError.message);
+    if (!existingOrder) {
+      console.error("❌ Orden no encontrada en Supabase");
+      return NextResponse.json({ status: "order_not_found" });
+    }
+
+    // Idempotencia → si ya estaba aprobado, ignorar
+    if (existingOrder.status === "closed") {
+      console.log("⚠️ Pedido ya aprobado, ignorando webhook");
       return NextResponse.json({ status: "already_processed" });
     }
 
-    // Obtener info del comprador
-    const paymentId = merchantOrder.payments[0]?.id;
-    const payment = await getPayment(paymentId);
-    const payer_information = payment.payer;
+    // Calcular total desde carrito
+    const totalAmount = existingOrder.carrito.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
 
-    // Crear pedido + procesar items
-    const pedido = await createPedido(merchantOrder, payer_information, items);
-    await processItems(pedido.id, items);
+    // Actualizar la orden con estado aprobado y datos de pago
+    const { error: updateError } = await supabase
+      .from("pedidos")
+      .update({
+        status: merchantOrder.status,
+        user_email: payer_information.email,
+        id_pedido_mp: merchantOrder.id,
+        total_amount: totalAmount,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("external_reference", external_reference);
 
-    console.log(`✅ Pedido ${pedido.id} creado con ${items.length} items`);
+    if (updateError) throw new Error(updateError.message);
+
+    // Actualizar stock usando carrito JSON
+    await updateStockFromCarrito(existingOrder.carrito);
+
+    console.log(`✅ Pedido ${existingOrder.id} actualizado con éxito`);
     return NextResponse.json({ status: "success" });
   } catch (error) {
     console.error("🔥 Webhook error:", error);

@@ -13,7 +13,7 @@ import {
   Column,
 } from "@react-email/components";
 
-export default function EmailTemplate({ items = [], payment_id, email }) {
+export default function EmailTemplate({ items = [], email }) {
   // calcular total
   const total = items.reduce(
     (acc, item) => acc + item.unit_price * item.quantity,
@@ -29,8 +29,7 @@ export default function EmailTemplate({ items = [], payment_id, email }) {
         <Container style={container}>
           <Heading style={h1}>¡Hola! Tu compra a sido procesada.</Heading>
           <Text style={text}>
-            Gracias por tu compra. Tu pago con ID <strong>{payment_id}</strong>{" "}
-            fue procesado con éxito.
+            Gracias por tu compra. Tu pago fue procesado con éxito.
           </Text>
 
           {/* Listado de items */}

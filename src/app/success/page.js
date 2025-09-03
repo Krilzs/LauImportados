@@ -9,6 +9,8 @@ export default function SuccessPage({ searchParams }) {
   const [order, setOrder] = useState(null);
   const dispatch = useDispatch();
 
+  console.log(order);
+
   useEffect(() => {
     const fetchPayment = async () => {
       const { payment_id: paymentId } = await searchParams;

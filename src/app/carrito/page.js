@@ -2,15 +2,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
-import * as z from "zod";
 import { removeFromCart, updateQuantity } from "@/store/cartSlice";
 import { FaTrash } from "react-icons/fa";
+import WhatsAppButton from "@/components/carrito/WhatsAppButton";
+import { useRouter } from "next/navigation";
 
 const CarritoPage = () => {
   const items = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const [mounted, setMounted] = useState(false);
-
+  const router = useRouter();
   const totalPrice = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -110,7 +111,7 @@ const CarritoPage = () => {
                   onClick={() => dispatch(removeFromCart(item.id))}
                   className=" text-white px-3 py-1 rounded hover:bg-red-200 transition duration-300 ease-in-out"
                 >
-                  <FaTrash className="text-xl text-red-400" />
+                  <FaTrash className="text-xl text-red-400 cursor-pointer" />
                 </button>
               </div>
             </div>
@@ -119,21 +120,29 @@ const CarritoPage = () => {
 
         {/* Columna derecha → Formulario */}
         <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between">
-          <h2 className="text-xl font-bold mb-4">Datos del Comprador</h2>
-          <p className="text-gray-600 mb-4">
-            Tus datos se obtendran de forma segura y directa desde Mercado Pago
-          </p>
-
           <h3 className="text-lg font-bold mb-2">
             Total: ${totalPrice.toFixed(2)}
           </h3>
-          <button
-            type="submit"
-            onClick={handleCheckout}
-            className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-lg font-bold "
-          >
-            Pagar con Mercado Pago
-          </button>
+          <div className="flex flex-col gap-4">
+            {/* Pago automático con MP */}
+            <button
+              onClick={() => router.push("/checkout")}
+              className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-lg font-bold cursor-pointer"
+            >
+              ✔ Pagar con Mercado Pago
+            </button>
+            <p className="text-gray-600 text-sm text-center">
+              ✅ Con este método tu pago se procesa automáticamente, solo
+              restará coordinar el punto de entrega con un vendedor.
+            </p>
+
+            {/* Pedido manual con WhatsApp */}
+            <WhatsAppButton order={items} />
+            <p className="text-gray-600 text-sm text-center">
+              📢 Si elegís este método, tu pedido será procesado manualmente con
+              un vendedor para coordinar pago y entrega.
+            </p>
+          </div>
         </div>
       </div>
     </div>
