@@ -4,32 +4,30 @@ import { useDispatch } from "react-redux";
 import { clearCart } from "@/store/cartSlice";
 import { FaCheckCircle } from "react-icons/fa";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-export const metadata = {
-  title: "Pago Exitoso | Lau Importados",
-};
-
-export default function SuccessPage({ searchParams }) {
+export default function SuccessPage() {
   const [order, setOrder] = useState(null);
   const dispatch = useDispatch();
 
-  console.log(order);
+  const searchParams = useSearchParams();
+  const paymentId = searchParams.get("payment_id");
 
   useEffect(() => {
     const fetchPayment = async () => {
-      const { payment_id: paymentId } = await searchParams;
-      console.log(paymentId);
+      if (!paymentId) return; // evitar crash
+
+      console.log("Payment ID:", paymentId);
 
       const res = await fetch(`/api/payment/${paymentId}`);
       const data = await res.json();
       setOrder(data);
 
-      // 🧹 Limpiamos el carrito de Redux
       dispatch(clearCart());
     };
 
     fetchPayment();
-  }, [searchParams, dispatch]);
+  }, [paymentId, dispatch]);
 
   const sendEmail = async (email, items) => {
     const bodyinfo = {
