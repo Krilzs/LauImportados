@@ -9,6 +9,7 @@ import Link from "next/link";
 export default function SuccessClient({ searchParams }) {
   console.log(searchParams);
   const paymentId = searchParams?.payment_id;
+  console.log("paymentId", paymentId);
   const [order, setOrder] = useState(null);
   const dispatch = useDispatch();
 
