@@ -7,6 +7,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import Link from "next/link";
 
 export default function SuccessClient({ searchParams }) {
+  console.log(searchParams);
   const paymentId = searchParams?.payment_id;
   const [order, setOrder] = useState(null);
   const dispatch = useDispatch();
