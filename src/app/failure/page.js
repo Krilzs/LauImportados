@@ -1,4 +1,9 @@
 // /app/failure/page.js
+
+export const metadata = {
+  title: "Pago Fallido | Lau Importados",
+};
+
 export default async function FailurePage({}) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-red-50 text-center p-6">

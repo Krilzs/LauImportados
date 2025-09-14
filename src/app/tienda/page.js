@@ -2,6 +2,11 @@ import { supabase } from "@/lib/supabaseClient";
 import TiendaClient from "@/app/tienda/TiendaClient";
 import ErrorPage from "@/components/errors/errorFetching";
 
+export const metadata = {
+  title: "Tienda | Lau Importados",
+  description: "Tienda de productos importados al mejor precio en Argentina.",
+};
+
 export default async function TiendaPage({ searchParams }) {
   const { search, category } = await searchParams;
 

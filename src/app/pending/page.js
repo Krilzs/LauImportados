@@ -1,3 +1,7 @@
+export const metadata = {
+  title: "Pago Pendiente | Lau Importados",
+};
+
 export default async function PendingPage({}) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-yellow-50 text-center p-6">

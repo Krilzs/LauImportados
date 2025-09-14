@@ -2,6 +2,12 @@ import { supabase } from "@/lib/supabaseClient";
 import CategoriasClient from "./CategoriasClient";
 import ErrorPage from "@/components/errors/errorFetching";
 
+export const metadata = {
+  title: "Categorías de Productos | Lau Importados",
+  description:
+    "Categorías de productos importados al mejor precio en Argentina.",
+};
+
 export default async function CategoriasPage() {
   // 🔥 SSR: acá en el futuro podrías hacer fetch a tu DB
   let query = supabase.from("categorias").select("*");

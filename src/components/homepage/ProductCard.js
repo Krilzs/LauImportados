@@ -12,7 +12,7 @@ const ProductCard = ({ producto }) => {
       onClick={() => {
         handleSearch(producto.id);
       }}
-      className="bg-white rounded-lg h-fit min-h-[350px] w-full shadow-lg flex flex-col items-center justify-between p-8 max-w-sm text-center transition-all duration-300 ease-in-out hover:translate-y-10 overflow-hidden"
+      className="bg-white rounded-lg h-fit min-h-[350px] w-full shadow-lg flex flex-col items-center justify-between p-8 max-w-sm text-center transition-all duration-300 ease-in-out hover:translate-y-10 overflow-hidden cursor-pointer active:scale-75"
     >
       <Image
         src={producto.image}
