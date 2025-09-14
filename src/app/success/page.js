@@ -14,6 +14,9 @@ export default function SuccessPage({ searchParams }) {
   useEffect(() => {
     const fetchPayment = async () => {
       const { payment_id: paymentId } = await searchParams;
+      console.log(paymentId);
+
+
 
       const res = await fetch(`/api/payment/${paymentId}`);
       const data = await res.json();

@@ -35,7 +35,6 @@ export async function GET(req, { params }) {
       items: merchantOrder.items, // 👈 aquí sí vienen los productos
     });
   } catch (error) {
-    console.error("Error obteniendo pago:", error);
     return NextResponse.json(
       { error: "Error al obtener pago" },
       { status: 500 }
