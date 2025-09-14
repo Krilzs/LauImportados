@@ -41,7 +41,6 @@ export default function SuccessPage({ searchParams }) {
     });
 
     const data = await res.json();
-    console.log(data);
   };
 
   if (!order) {
