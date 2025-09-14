@@ -1,23 +1,19 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { clearCart } from "@/store/cartSlice";
 import { FaCheckCircle } from "react-icons/fa";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
-export default function SuccessPage() {
+export default function SuccessClient({ searchParams }) {
+  const paymentId = searchParams?.payment_id;
   const [order, setOrder] = useState(null);
   const dispatch = useDispatch();
 
-  const searchParams = useSearchParams();
-  const paymentId = searchParams.get("payment_id");
-
   useEffect(() => {
     const fetchPayment = async () => {
-      if (!paymentId) return; // evitar crash
-
-      console.log("Payment ID:", paymentId);
+      if (!paymentId) return;
 
       const res = await fetch(`/api/payment/${paymentId}`);
       const data = await res.json();
