@@ -124,7 +124,7 @@ export async function POST(req) {
       .update({
         status: merchantOrder.status,
         user_email: payer_information.email,
-        id_pedido_mp: merchantOrder.id,
+        id_pedido_mp: payment.id,
         total_amount: totalAmount,
         updated_at: new Date().toISOString(),
       })
