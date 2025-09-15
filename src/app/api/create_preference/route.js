@@ -43,9 +43,12 @@ export async function POST(request) {
           unit_price: Number(item.price),
         })),
         back_urls: {
-          success: "https://lauimportados.shop/success",
-          failure: "https://lauimportados.shop/failure",
-          pending: "https://lauimportados.shop/pending",
+          success:
+            "https://till-tenant-additional-collectors.trycloudflare.com/success",
+          failure:
+            "https://till-tenant-additional-collectors.trycloudflare.com/failure",
+          pending:
+            "https://till-tenant-additional-collectors.trycloudflare.com/pending",
         },
         auto_return: "approved",
         external_reference, // 👈 clave para unir con tu DB
