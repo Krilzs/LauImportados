@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { clearCart } from "@/store/cartSlice";
 import { FaCheckCircle } from "react-icons/fa";
@@ -14,23 +14,32 @@ export default function SuccessClient({ order }) {
     dispatch(clearCart());
   }, [dispatch]);
 
-  // Enviar email con comprobante
-  useEffect(() => {
-    if (order?.payer?.email && order?.items?.length > 0) {
-      const sendEmail = async () => {
-        await fetch(`/api/sendEmail`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: order.payer.email,
-            items: order.items,
-          }),
-        });
-      };
-      sendEmail();
-    }
+  // 🟢 Generar link de WhatsApp
+  const whatsappUrl = useMemo(() => {
+    if (!order) return "#";
+
+    const phone = "5491170656865"; // <-- acá va el número del vendedor en formato internacional sin "+"
+    const total = order.items.reduce(
+      (acc, item) => acc + item.unit_price * item.quantity,
+      0
+    );
+
+    let message = `¡Hola! Soy el cliente con email ${order.payer?.email}.
+Quiero confirmar mi pedido #${order.id}.
+  
+Productos: 
+${order.items
+  .map(
+    (item) =>
+      `- ${item.title} x${item.quantity} = $${(
+        item.unit_price * item.quantity
+      ).toLocaleString("es-AR")}`
+  )
+  .join("\n")}
+
+Total: $${total.toLocaleString("es-AR")}`;
+
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   }, [order]);
 
   if (!order) {
@@ -90,13 +99,25 @@ export default function SuccessClient({ order }) {
           </ul>
         </div>
 
-        {/* Botón de volver */}
-        <Link
-          href="/tienda"
-          className="inline-block bg-green-500 text-white px-6 py-3 rounded-xl shadow hover:bg-green-600 transition"
-        >
-          Volver a la tienda
-        </Link>
+        {/* Botones */}
+        <div className="flex flex-col space-y-3">
+          <Link
+            href="/tienda"
+            className="inline-block bg-green-500 text-white px-6 py-3 rounded-xl shadow hover:bg-green-600 transition"
+          >
+            Volver a la tienda
+          </Link>
+
+          {/* 🟢 Botón de WhatsApp */}
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-[#25D366] text-white px-6 py-3 rounded-xl shadow hover:bg-[#1ebe5c] transition"
+          >
+            Confirmar pedido por WhatsApp
+          </a>
+        </div>
       </div>
     </div>
   );

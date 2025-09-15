@@ -24,7 +24,6 @@ async function getPayment(paymentId) {
 
 async function updateStockFromCarrito(carrito) {
   for (const item of carrito) {
-    // 1. Obtener stock actual
     const { data: product, error: productError } = await supabase
       .from("productos")
       .select("stock")
@@ -36,7 +35,6 @@ async function updateStockFromCarrito(carrito) {
       continue;
     }
 
-    // 2. Actualizar stock
     const newStock = product.stock - item.quantity;
     const { error: stockError } = await supabase
       .from("productos")
@@ -52,12 +50,31 @@ async function updateStockFromCarrito(carrito) {
   }
 }
 
+// --- Nuevo: helper para enviar mail ---
+async function sendEmail(email, items) {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/sendEmail`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, items }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      console.error("❌ Error enviando email:", err);
+    } else {
+      console.log("📧 Email enviado correctamente");
+    }
+  } catch (err) {
+    console.error("🔥 Error sendEmail:", err);
+  }
+}
+
 // --- Handler Principal ---
 export async function POST(req) {
   try {
     const body = await req.json();
 
-    // Solo atender webhook de merchant_order
     if (body.type !== "topic_merchant_order_wh") {
       return NextResponse.json({ status: "ignored" });
     }
@@ -74,7 +91,6 @@ export async function POST(req) {
     const payer_information = payment.payer;
     const external_reference = payment.external_reference;
 
-    // Buscar orden en Supabase
     const { data: existingOrder, error: orderError } = await supabase
       .from("pedidos")
       .select("*")
@@ -87,19 +103,18 @@ export async function POST(req) {
       return NextResponse.json({ status: "order_not_found" });
     }
 
-    // Idempotencia → si ya estaba aprobado, ignorar
+    // Idempotencia
     if (existingOrder.status === "closed") {
       console.log("⚠️ Pedido ya aprobado, ignorando webhook");
       return NextResponse.json({ status: "already_processed" });
     }
 
-    // Calcular total desde carrito
     const totalAmount = existingOrder.carrito.reduce(
       (acc, item) => acc + item.price * item.quantity,
       0
     );
 
-    // Actualizar la orden con estado aprobado y datos de pago
+    // Actualizar orden
     const { error: updateError } = await supabase
       .from("pedidos")
       .update({
@@ -113,10 +128,13 @@ export async function POST(req) {
 
     if (updateError) throw new Error(updateError.message);
 
-    // Actualizar stock usando carrito JSON
+    // Actualizar stock
     await updateStockFromCarrito(existingOrder.carrito);
 
-    console.log(`✅ Pedido ${existingOrder.id} actualizado con éxito`);
+    // Enviar mail de confirmación ✅
+    await sendEmail(payer_information.email, existingOrder.carrito);
+
+    console.log(`✅ Pedido ${existingOrder.id} actualizado y mail enviado`);
     return NextResponse.json({ status: "success" });
   } catch (error) {
     console.error("🔥 Webhook error:", error);
