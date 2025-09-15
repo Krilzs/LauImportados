@@ -52,7 +52,6 @@ async function updateStockFromCarrito(carrito) {
 
 // --- Nuevo: helper para enviar mail ---
 async function sendEmail(email, items) {
-  console.log("Datos del Email:", { email, items });
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/api/sendEmail`,
@@ -67,7 +66,7 @@ async function sendEmail(email, items) {
       const err = await res.text();
       console.error("❌ Error enviando email:", err);
     } else {
-      console.log("📧 Email enviado correctamente", res);
+      console.log("📧 Email enviado correctamente");
     }
   } catch (err) {
     console.error("🔥 Error sendEmail:", err);
@@ -124,7 +123,7 @@ export async function POST(req) {
       .update({
         status: merchantOrder.status,
         user_email: payer_information.email,
-        id_pedido_mp: payment.id,
+        id_pedido_mp: merchantOrder.id,
         total_amount: totalAmount,
         updated_at: new Date().toISOString(),
       })
