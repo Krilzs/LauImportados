@@ -10,7 +10,7 @@ export async function POST(req) {
   // 🔧 Normalizar items a números
   const normalizedItems = items.map((item) => ({
     ...item,
-    unit_price: Number(item.unit_price) || 0,
+    price: Number(item.price) || 0,
     quantity: Number(item.quantity) || 0,
   }));
 

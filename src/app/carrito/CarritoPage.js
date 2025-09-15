@@ -7,9 +7,7 @@ import { FaTrash } from "react-icons/fa";
 import WhatsAppButton from "@/components/carrito/WhatsAppButton";
 import { useRouter } from "next/navigation";
 
-export const metadata = {
-  title: "Carrito de Compras | Lau Importados",
-};
+
 
 const CarritoPage = () => {
   const items = useSelector((state) => state.cart.items);

@@ -16,7 +16,7 @@ import {
 export default function EmailTemplate({ items = [], email }) {
   // calcular total (ya vienen normalizados en la API, pero aseguramos con Number)
   const total = items.reduce(
-    (acc, item) => acc + Number(item.unit_price) * Number(item.quantity),
+    (acc, item) => acc + Number(item.price) * Number(item.quantity),
     0
   );
 
@@ -38,15 +38,13 @@ export default function EmailTemplate({ items = [], email }) {
               <Row key={item.id} style={row}>
                 <Column style={{ width: "60%" }}>
                   <Text style={productName}>
-                    {item.title} (x{item.quantity})
+                    {item.name} (x{item.quantity})
                   </Text>
                 </Column>
                 <Column style={{ width: "40%", textAlign: "right" }}>
                   <Text style={productPrice}>
-                    {item.currency_id} $
-                    {(Number(item.unit_price) * Number(item.quantity)).toFixed(
-                      2
-                    )}
+                    {items?.currency_id || "ARS"} $
+                    {(Number(item.price) * Number(item.quantity)).toFixed(2)}
                   </Text>
                 </Column>
               </Row>
@@ -68,7 +66,7 @@ export default function EmailTemplate({ items = [], email }) {
           <Section style={{ margin: "20px 0" }}>
             <Button
               style={button}
-              href={`https://lau-importados.vercel.app/tienda`}
+              href={`https://lauimportados.shop/tienda`}
             >
               Explorar la tienda
             </Button>
@@ -78,7 +76,7 @@ export default function EmailTemplate({ items = [], email }) {
             Email referencial al pedido: {email}
             <br />
             Si tenés dudas, podés encontrar más información en nuestra página de{" "}
-            <a href="https://lau-importados.vercel.app/contacto">contacto</a>.
+            <a href="https://lauimportados.shop/contacto">contacto</a>.
             <br />– El equipo de Lau Importados 🚀
           </Text>
         </Container>

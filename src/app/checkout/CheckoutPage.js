@@ -2,9 +2,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-export const metadata = {
-  title: "Pago con Mercado Pago | Lau Importados",
-};
+
 
 
 const CheckoutPage = () => {
