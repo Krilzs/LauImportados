@@ -53,11 +53,14 @@ async function updateStockFromCarrito(carrito) {
 // --- Nuevo: helper para enviar mail ---
 async function sendEmail(email, items) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/sendEmail`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, items }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/sendEmail`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, items }),
+      }
+    );
 
     if (!res.ok) {
       const err = await res.text();

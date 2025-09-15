@@ -14,9 +14,9 @@ import {
 } from "@react-email/components";
 
 export default function EmailTemplate({ items = [], email }) {
-  // calcular total
+  // calcular total (ya vienen normalizados en la API, pero aseguramos con Number)
   const total = items.reduce(
-    (acc, item) => acc + item.unit_price * item.quantity,
+    (acc, item) => acc + Number(item.unit_price) * Number(item.quantity),
     0
   );
 
@@ -27,7 +27,7 @@ export default function EmailTemplate({ items = [], email }) {
 
       <Body style={main}>
         <Container style={container}>
-          <Heading style={h1}>¡Hola! Tu compra a sido procesada.</Heading>
+          <Heading style={h1}>¡Hola! Tu compra ha sido procesada.</Heading>
           <Text style={text}>
             Gracias por tu compra. Tu pago fue procesado con éxito.
           </Text>
@@ -44,7 +44,9 @@ export default function EmailTemplate({ items = [], email }) {
                 <Column style={{ width: "40%", textAlign: "right" }}>
                   <Text style={productPrice}>
                     {item.currency_id} $
-                    {(item.unit_price * item.quantity).toFixed(2)}
+                    {(Number(item.unit_price) * Number(item.quantity)).toFixed(
+                      2
+                    )}
                   </Text>
                 </Column>
               </Row>
@@ -75,7 +77,7 @@ export default function EmailTemplate({ items = [], email }) {
           <Text style={footer}>
             Email referencial al pedido: {email}
             <br />
-            Si tenés dudas, podés encontrar mas información en nuestra página de{" "}
+            Si tenés dudas, podés encontrar más información en nuestra página de{" "}
             <a href="https://lau-importados.vercel.app/contacto">contacto</a>.
             <br />– El equipo de Lau Importados 🚀
           </Text>
